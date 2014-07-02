@@ -11,15 +11,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import sys
-sys.path.insert(0, '../3rdparty')
-sys.path.insert(0, '../lib')
-
 import ofx
 import ofx_test_utils
 
-import os
 import unittest
 
 class ParserTests(unittest.TestCase):

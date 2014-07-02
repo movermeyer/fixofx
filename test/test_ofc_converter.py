@@ -1,8 +1,4 @@
 #coding: utf-8
-import sys
-sys.path.insert(0, '../3rdparty')
-sys.path.insert(0, '../lib')
-
 from ofxtools.ofc_converter import OfcConverter
 from os.path import join, realpath, dirname
 

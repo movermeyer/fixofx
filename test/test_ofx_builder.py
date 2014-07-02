@@ -11,11 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import sys
-sys.path.insert(0, '../3rdparty')
-sys.path.insert(0, '../lib')
-
 from ofx.builder import *
 from ofx.builder import Tag  # not exported by default
 import unittest

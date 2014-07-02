@@ -15,11 +15,6 @@
 #
 # MockOfxServer - simple mock server for testing
 #
-
-import sys
-sys.path.insert(0, '../3rdparty')
-sys.path.insert(0, '../lib')
-
 import ofx_test_utils
 
 import urllib.request, urllib.error, urllib.parse

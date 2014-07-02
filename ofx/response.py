@@ -27,7 +27,10 @@ class Response(ofx.Document):
         # REVIEW: Check later to see if this is still needed, espcially once
         # B of A is mechanized.
         # REVIEW: Checked.  Still needed.  Feh!
-        self.raw_response = response.decode('utf-8')
+        if not isinstance(response, str):
+            response = response.decode('utf-8')
+
+        self.raw_response = response
         self.raw_response = self.raw_response.replace('Content- type:application/ofx', "")
 
         # Good god, another one.  Regex?

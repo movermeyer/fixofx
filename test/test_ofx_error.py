@@ -11,23 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-import sys
-sys.path.insert(0, '../3rdparty')
-sys.path.insert(0, '../lib')
-
 import ofx
-import ofx_test_utils
-
 import unittest
 
-class DocumentTests(unittest.TestCase):
-    def setUp(self):
-        self.checking = ofx_test_utils.get_checking_stmt()        
-    
-    def test_statement_as_xml(self):
-        response = ofx.Response(self.checking)
-        self.assertEqual('<?xml version="1.0"', response.as_xml()[:19])
+class ErrorTests(unittest.TestCase):    
+    def test_ofx_error_to_str(self):
+        error = ofx.Error("test", code=9999, severity="ERROR", message="Test")
+        expected = "Test\n(ERROR 9999: Unknown error code)"
+        self.assertEqual(expected, error.str())
+        self.assertEqual(expected, str(error))
     
 
 if __name__ == '__main__':

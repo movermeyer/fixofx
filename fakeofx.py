@@ -26,13 +26,9 @@ def fixpath(filename):
     mypath = os.path.dirname(sys._getframe(1).f_code.co_filename)
     return os.path.normpath(os.path.join(mypath, filename))
 
-sys.path.insert(0, '3rdparty')
-sys.path.insert(0, 'lib')
-
 from datetime import date
 from datetime import timedelta
 import ofx
-from optparse import OptionParser
 import random
 
 def generate_amt(base_amt):
