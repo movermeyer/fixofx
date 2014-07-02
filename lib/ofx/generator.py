@@ -49,7 +49,7 @@ class Generator:
     def to_ofx1(self):
         # Sort transactions and fill in date information.
         # OFX transactions appear most recent first, and oldest last.
-        self.date_list = self.txns_by_date.keys()
+        self.date_list = list(self.txns_by_date.keys())
         self.date_list.sort()
         self.date_list.reverse()
 

@@ -119,7 +119,7 @@ class OfxStatement:
 
         # OFX transactions appear most recent first, and oldest last,
         # so we do a reverse sort of the dates in this statement.
-        date_list = self.txns_by_date.keys()
+        date_list = list(self.txns_by_date.keys())
         date_list.sort()
         date_list.reverse()
         for date in date_list:
@@ -169,7 +169,7 @@ class OfxStatement:
         return STMTTRN(*fields)
 
     def _check_field(self, key, txn):
-        return txn.has_key(key) and txn[key].strip() != ""
+        return key in txn and txn[key].strip() != ""
 
 #
 #  ofxtools.OfxTransaction - clean and format transaction information.

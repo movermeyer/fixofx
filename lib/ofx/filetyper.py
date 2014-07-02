@@ -98,14 +98,14 @@ class FileTyper:
                         frequencies[fields] = frequencies.get(fields, 0) + 1
                         rows = rows + 1
 
-                for fieldcount, frequency in frequencies.items():
+                for fieldcount, frequency in list(frequencies.items()):
                     percentage = (float(frequency) / float(rows)) * float(100)
                     if fieldcount > 2 and percentage > 80:
                         if dialect.delimiter == ",":
                             return "CSV"
                         elif dialect.delimiter == "\t":
                             return "TSV"
-            except StandardError:
+            except Exception:
                 pass
 
             # If we get all the way down here, we don't know what the file type is.

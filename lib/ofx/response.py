@@ -27,7 +27,8 @@ class Response(ofx.Document):
         # REVIEW: Check later to see if this is still needed, espcially once
         # B of A is mechanized.
         # REVIEW: Checked.  Still needed.  Feh!
-        self.raw_response = response.replace('Content- type:application/ofx', "")
+        self.raw_response = response.decode('utf-8')
+        self.raw_response = self.raw_response.replace('Content- type:application/ofx', "")
 
         # Good god, another one.  Regex?
         self.raw_response = self.raw_response.replace('Content-Type: application/x-ofx', "")
@@ -38,7 +39,7 @@ class Response(ofx.Document):
 
         parser = ofx.Parser(debug)
         self.parse_dict = parser.parse(self.raw_response)
-        self.ofx = self.parse_dict["body"]["OFX"].asDict()
+        self.ofx = self.parse_dict["body"]["OFX"][0].asDict()
 
     def as_dict(self):
         return self.ofx
@@ -57,7 +58,7 @@ class Response(ofx.Document):
         # a bank might use inside a bank or creditcard response *other*
         # than statements?  I bet there are.
         statements = []
-        for tag in self.ofx.keys():
+        for tag in list(self.ofx.keys()):
             if tag == "BANKMSGSRSV1" or tag == "CREDITCARDMSGSRSV1":
                 for sub_tag in self.ofx[tag]:
                     statements.append(ofx.Statement(sub_tag))
@@ -65,7 +66,7 @@ class Response(ofx.Document):
 
     def get_accounts(self):
         accounts = []
-        for tag in self.ofx.keys():
+        for tag in list(self.ofx.keys()):
             if tag == "SIGNUPMSGSRSV1":
                 signup = self.ofx[tag].asDict()
                 for signup_tag in signup:
@@ -84,16 +85,16 @@ class Response(ofx.Document):
     def _extract_account(self, acct_block):
         acct_dict = acct_block.asDict()
 
-        if acct_dict.has_key("DESC"):
+        if "DESC" in acct_dict:
             desc = acct_dict["DESC"]
         else:
             desc = None
 
-        if acct_dict.has_key("BANKACCTINFO"):
+        if "BANKACCTINFO" in acct_dict:
             acctinfo = acct_dict["BANKACCTINFO"]
             return ofx.Account(ofx_block=acctinfo["BANKACCTFROM"], desc=desc)
 
-        elif acct_dict.has_key("CCACCTINFO"):
+        elif "CCACCTINFO" in acct_dict:
             acctinfo = acct_dict["CCACCTINFO"]
             account = ofx.Account(ofx_block=acctinfo["CCACCTFROM"], desc=desc)
             account.acct_type = "CREDITCARD"
@@ -141,10 +142,10 @@ class Statement(ofx.Document):
         self.parse_result = statement
         self.parse_dict = self.parse_result.asDict()
 
-        if self.parse_dict.has_key("STMTRS"):
+        if "STMTRS" in self.parse_dict:
             stmt = self.parse_dict["STMTRS"]
             self.account = ofx.Account(ofx_block=stmt["BANKACCTFROM"])
-        elif self.parse_dict.has_key("CCSTMTRS"):
+        elif "CCSTMTRS" in self.parse_dict:
             stmt = self.parse_dict["CCSTMTRS"]
             self.account = ofx.Account(ofx_block=stmt["CCACCTFROM"])
             self.account.acct_type = "CREDITCARD"

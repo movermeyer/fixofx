@@ -98,7 +98,7 @@ class Error(Exception):
         if code is None:
             code = self.code
 
-        if self.codetable.has_key(code):
+        if code in self.codetable:
             return self.codetable[code]
         else:
             return "Unknown error code"

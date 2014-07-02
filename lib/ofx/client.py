@@ -18,7 +18,7 @@
 #
 
 import ofx
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 class Client:
     """Network client for communicating with OFX servers.  The client
@@ -68,12 +68,12 @@ class Client:
             # American Express seems to only include back to the first of the year.
             self.request_msg = request.bank_stmt(account, username, password, daysago=365)
             return self._send_request(account.institution.ofx_url, self.request_msg)
-        except ofx.Error, detail:
+        except ofx.Error as detail:
             try:
                 # If that didn't work, try 90 days back.
                 self.request_msg = request.bank_stmt(account, username, password, daysago=90)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
-            except ofx.Error, detail:
+            except ofx.Error as detail:
                 # If that also didn't work, try 30 days back, which has been our default and
                 # which always seems to work across all OFX servers.
                 self.request_msg = request.bank_stmt(account, username, password, daysago=30)
@@ -91,11 +91,11 @@ class Client:
         try:
             self.request_msg = request.creditcard_stmt(account, username, password, daysago=365)
             return self._send_request(account.institution.ofx_url, self.request_msg)
-        except ofx.Error, detail:
+        except ofx.Error as detail:
             try:
                 self.request_msg = request.creditcard_stmt(account, username, password, daysago=90)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
-            except ofx.Error, detail:
+            except ofx.Error as detail:
                 self.request_msg = request.creditcard_stmt(account, username, password, daysago=30)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
 
@@ -138,10 +138,10 @@ class Client:
         """Transmits the message to the server and checks the response
         for error status."""
 
-        request = urllib2.Request(url, request_body,
+        request = urllib.request.Request(url, request_body.encode('utf-8'),
                                   { "Content-type": "application/x-ofx",
                                     "Accept": "*/*, application/x-ofx" })
-        stream = urllib2.urlopen(request)
+        stream = urllib.request.urlopen(request)
         response = stream.read()
         stream.close()
 
@@ -152,17 +152,17 @@ class Client:
 
         # FIXME: This needs to account for statement closing responses.
 
-        if parsed_ofx.has_key("BANKMSGSRSV1"):
+        if "BANKMSGSRSV1" in parsed_ofx:
             bank_status = \
                 parsed_ofx["BANKMSGSRSV1"]["STMTTRNRS"]["STATUS"]
             self._check_status(bank_status, "bank statement")
 
-        elif parsed_ofx.has_key("CREDITCARDMSGSRSV1"):
+        elif "CREDITCARDMSGSRSV1" in parsed_ofx:
             creditcard_status = \
                 parsed_ofx["CREDITCARDMSGSRSV1"]["CCSTMTTRNRS"]["STATUS"]
             self._check_status(creditcard_status, "credit card statement")
 
-        elif parsed_ofx.has_key("SIGNUPMSGSRSV1"):
+        elif "SIGNUPMSGSRSV1" in parsed_ofx:
             acctinfo_status = \
                 parsed_ofx["SIGNUPMSGSRSV1"]["ACCTINFOTRNRS"]["STATUS"]
             self._check_status(acctinfo_status, "account information")

@@ -172,7 +172,7 @@ class QifConverter:
             txn_currency = txn.get("Currency", "UNKNOWN")
             # Look for date format.
             parsed_date = self._parse_date(txn_date)
-            self._check_date_format(parsed_date)
+            self._check_date_format(parsed_date, txn_date)
             # Look for currency format.
             if self.curdef is None and txn_currency == '^EUR':
                 self.curdef = 'EUR'
@@ -183,7 +183,8 @@ class QifConverter:
         # QIF date.
         if txn_date != "UNKNOWN":
             try:
-                return dateutil.parser.parse(txn_date, dayfirst=dayfirst)
+                if not txn_date.isalpha():
+                    return dateutil.parser.parse(txn_date, dayfirst=dayfirst)
 
             except ValueError:
                 # dateutil.parser doesn't recognize dates of the
@@ -214,10 +215,12 @@ class QifConverter:
         else:
             return "UNKNOWN"
 
-    def _check_date_format(self, parsed_date):
+    def _check_date_format(self, parsed_date, txn_date):
         # If we *ever* find a date that parses as dayfirst, treat
         # *all* transactions in this statement as dayfirst.
-        if parsed_date is not None and parsed_date != "UNKNOWN" and parsed_date.microsecond == 3:
+        maybe_day = int(txn_date[:2])
+
+        if parsed_date is not None and parsed_date != "UNKNOWN" and (13 <= maybe_day <= 31):
             self.dayfirst = True
 
     #
@@ -244,7 +247,7 @@ class QifConverter:
             # Sort the dates (in YYYYMMDD format) and choose the lowest
             # date as our start date, and the highest date as our end
             # date.
-            date_list = self.txns_by_date.keys()
+            date_list = list(self.txns_by_date.keys())
             date_list.sort()
 
             self.start_date = date_list[0]
@@ -380,7 +383,7 @@ class QifConverter:
 
         # Try to figure out the transaction type from the Payee or
         # Memo field.
-        for typestr in self.txn_types.keys():
+        for typestr in list(self.txn_types.keys()):
             if txn_number == typestr:
                 # US Bank sends "DEBIT" or "CREDIT" as a check number
                 # on credit card transactions.
@@ -452,10 +455,10 @@ class QifConverter:
                 txn["Type"]  = "CREDIT"
 
         # Make sure the transaction type has some valid value.
-        if not txn.has_key("Type") and txn_sign == "debit":
+        if "Type" not in txn and txn_sign == "debit":
             txn["Type"] = "DEBIT"
 
-        elif not txn.has_key("Type") and txn_sign == "credit":
+        elif "Type" not in txn and txn_sign == "credit":
             txn["Type"] = "CREDIT"
 
     def _txn_sign(self, txn_amount):
@@ -576,7 +579,7 @@ class QifConverter:
 
         # OFX transactions appear most recent first, and oldest last,
         # so we do a reverse sort of the dates in this statement.
-        date_list = self.txns_by_date.keys()
+        date_list = list(self.txns_by_date.keys())
         date_list.sort()
         date_list.reverse()
         for date in date_list:
@@ -629,6 +632,6 @@ class QifConverter:
         return STMTTRN(*fields)
 
     def _check_field(self, key, txn):
-        return txn.has_key(key) and txn[key].strip() != ""
+        return key in txn and txn[key].strip() != ""
 
 

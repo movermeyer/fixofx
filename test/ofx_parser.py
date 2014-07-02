@@ -34,6 +34,7 @@ class ParserTests(unittest.TestCase):
     
     def test_successful_parse(self):
         """Test parsing a valid OFX document containing a 'success' message."""
+        print(list(self.checkparse["body"]["OFX"][0]["SIGNONMSGSRSV1"]))
         self.assertEqual("SUCCESS",
             self.checkparse["body"]["OFX"]["SIGNONMSGSRSV1"]["SONRS"]["STATUS"]["MESSAGE"])
     

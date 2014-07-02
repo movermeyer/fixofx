@@ -73,12 +73,30 @@ class Parser:
     def parse(self, ofx):
         """Parse a string argument and return a tree structure representing
         the parsed document."""
+        if(isinstance(ofx, bytes)):
+            ofx = ofx.decode('utf-8')
+
         ofx = strip_empty_tags(ofx)
         ofx = self.strip_close_tags(ofx)
         ofx = self.strip_blank_dtasof(ofx)
         ofx = self.strip_junk_ascii(ofx)
         ofx = self.fix_unknown_account_type(ofx)
-        return self.parser.parseString(ofx).asDict()
+
+        parsed = self.parser.parseString(ofx).asDict()
+
+        def add_on_presence(k):
+            if k in parsed["body"]["OFX"][0]:
+                parsed["body"]["OFX"][k] = parsed["body"]["OFX"][0][k]
+
+        add_on_presence("SIGNONMSGSRSV1")
+        add_on_presence("SIGNONMSGSRQV1")
+        add_on_presence("CREDITCARDMSGSRSV1")
+        add_on_presence("BANKMSGSRSV1")
+        add_on_presence("CREDITCARDMSGSRQV1")
+        add_on_presence("BANKMSGSRQV1")
+        add_on_presence("SIGNUPMSGSRQV1")
+
+        return parsed
 
     def strip_close_tags(self, ofx):
         """Strips close tags on non-aggregate nodes.  Close tags seem to be

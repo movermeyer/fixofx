@@ -15,7 +15,7 @@ def assert_not_raises(function, param, exception):
     try:
       function(param)
     except exception:
-      raise AssertionError, "Exception %s raised" %exception
+      raise AssertionError("Exception %s raised" %exception)
 
 
 class OFCConverterWithNoBankInfoTestCase(unittest.TestCase):
@@ -26,10 +26,11 @@ class OFCConverterWithNoBankInfoTestCase(unittest.TestCase):
     """
 
     def setUp(self):
-        self.ofc = open(no_bankinfo_ofc_path, 'r').read()
+        with open(no_bankinfo_ofc_path, 'r') as f:
+            self.ofc = f.read()
 
     def test_converting_ofc_with_no_bankinfo_should_not_raise_KeyError(self):
-        assert_not_raises(OfcConverter, self.ofc, KeyError)
+        assert OfcConverter(self.ofc)
 
     def test_ofc_converter_getting_balance_value(self):
         ofc_converter = OfcConverter(self.ofc)

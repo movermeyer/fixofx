@@ -15,9 +15,13 @@ def assert_not_raises(function, param, exception):
     try:
       function(param)
     except exception:
-      raise AssertionError, "Exception %s raised" %exception
+      raise AssertionError("Exception %s raised" %exception)
 
-read_file = lambda f: open(join(FIXTURES_PATH, f), 'rU').read()
+
+def read_file(filename):
+    with open(join(FIXTURES_PATH, filename), 'r') as f:
+        return f.read()
+
 
 class OFCParserTestCase(unittest.TestCase):
 

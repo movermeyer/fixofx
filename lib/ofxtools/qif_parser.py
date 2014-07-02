@@ -125,7 +125,7 @@ class QifParser:
 
     def _items(self, items, name="Transaction"):
         item_list = []
-        for (code, name) in items.iteritems():
+        for (code, name) in items.items():
             item = self._item(code, name)
             item_list.append(item)
         return Group(OneOrMore(Or(item_list)) +

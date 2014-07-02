@@ -12,7 +12,8 @@ from ofxtools import util
 
 class StripEmptyTags(unittest.TestCase):
     def test_strip_empty_tags(self):
-        empty_tags_file = open(join(realpath(dirname(__file__)), 'fixtures', 'empty_tags.ofx'), 'rU').read()
+        with open(join(realpath(dirname(__file__)), 'fixtures', 'empty_tags.ofx'), 'r') as f:
+            empty_tags_file = f.read()
         empty_tag_pattern = '<(?P<tag>[^>]+)>\s*</(?P=tag)>'
 
         result = util.strip_empty_tags(empty_tags_file)

@@ -56,7 +56,7 @@ class Document:
         if date_format is not None:
             xml += """<!-- Date format was: %s -->\n""" % date_format
 
-        taglist = self.parse_dict["body"]["OFX"].asList()
+        taglist = self.parse_dict["body"]["OFX"][0].asList()
         xml += self._format_xml(taglist)
 
         return xml

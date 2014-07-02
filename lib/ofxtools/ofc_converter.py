@@ -73,11 +73,14 @@ class OfcConverter:
 
         if self.debug: sys.stderr.write("Extracting document properties.\n")
 
-        if self.parsed_ofc["document"]["OFC"].asDict().has_key('TRNRS'):
+        if 'TRNRS' in self.parsed_ofc["document"]["OFC"].asDict():
             #TRNRS has almost the same info of ACCTSTMT. Just with another name. Damn you Banks!
             self.parsed_ofc["document"]["OFC"]['ACCTSTMT'] = self.parsed_ofc["document"]["OFC"]["TRNRS"]
+        elif 'TRNRS' in self.parsed_ofc["document"]["OFC"][0].asDict():
+            # Crazy hack to make it work
+            self.parsed_ofc["document"]["OFC"]['ACCTSTMT'] = self.parsed_ofc["document"]["OFC"][0]["TRNRS"]
 
-        if self.parsed_ofc["document"]["OFC"]["ACCTSTMT"].asDict().has_key('ACCTFROM'):
+        if 'ACCTFROM' in self.parsed_ofc["document"]["OFC"]["ACCTSTMT"].asDict():
             # Bank info ignored if not exists
             try:
                 self.bankid     = self.parsed_ofc["document"]["OFC"]["ACCTSTMT"]["ACCTFROM"]["BANKID"]
@@ -205,7 +208,7 @@ class OfcConverter:
         for item in self.parsed_ofc["document"]["OFC"]["ACCTSTMT"]["STMTRS"]:
             if item[0] == "STMTTRN":
                 txn = item.asDict()
-                if txn.has_key('GENTRN'):
+                if 'GENTRN' in txn:
                     txn = txn['GENTRN'].asDict()
 
                 txn_date = txn["DTPOSTED"]
@@ -260,6 +263,6 @@ class OfcConverter:
         return STMTTRN(*fields)
 
     def _check_field(self, key, txn):
-        return txn.has_key(key) and txn[key].strip() != ""
+        return key in txn and txn[key].strip() != ""
 
 

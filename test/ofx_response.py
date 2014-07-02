@@ -27,8 +27,8 @@ import xml.etree.ElementTree as ElementTree
 
 class ResponseTests(unittest.TestCase):
     def setUp(self):
-        self.response_text = ofx_test_utils.get_checking_stmt()
-        self.response = ofx.Response(self.response_text)
+        self.response_text = ofx_test_utils.get_checking_stmt().decode('utf-8')
+        self.response = ofx.Response(ofx_test_utils.get_checking_stmt())
 
     def test_signon_success(self):
         status = self.response.check_signon_status()
@@ -62,7 +62,7 @@ class ResponseTests(unittest.TestCase):
         # Then see if we can get a real parse success, with no ExpatError.
         xml = self.response.as_xml()
         xml_elem = ElementTree.fromstring(xml)
-        self.assertTrue(isinstance(xml_elem, ElementTree._ElementInterface))
+        self.assertTrue(isinstance(xml_elem, ElementTree.Element))
 
         # Finally, for kicks, try to get a value out of it.
         org_iter = xml_elem.getiterator("ORG")

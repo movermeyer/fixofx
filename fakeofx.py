@@ -142,7 +142,7 @@ def generate_transaction(stmt, tag, type, date=None):
 stmt = ofx.Generator(fid="9789789", org="FAKEOFX", acctid=acctid, accttype=accttype, 
                      bankid=bankid, availbal=balance, ledgerbal=balance)
 
-tags = spending_pcts.keys()
+tags = list(spending_pcts.keys())
 tags.remove("housing")
 
 if accttype == "CREDITCARD":
@@ -187,4 +187,4 @@ for tag in tags:
         tag_spending   -= abs(amount)
         total_spending -= abs(amount)
 
-print stmt
+print(stmt)

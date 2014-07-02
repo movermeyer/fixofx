@@ -45,9 +45,9 @@ class ClientTests(unittest.TestCase):
         self.username = "username"
         self.password = "password"
         self.client  = ofx.Client()
-        self.checking_stmt = ofx_test_utils.get_checking_stmt()
-        self.savings_stmt = ofx_test_utils.get_savings_stmt()
-        self.creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
+        self.checking_stmt = ofx_test_utils.get_checking_stmt().decode('utf-8')
+        self.savings_stmt = ofx_test_utils.get_savings_stmt().decode('utf-8')
+        self.creditcard_stmt = ofx_test_utils.get_creditcard_stmt().decode('utf-8')
     
     def test_checking_stmt_request(self):
         response = self.client.get_bank_statement(self.checking_account,
