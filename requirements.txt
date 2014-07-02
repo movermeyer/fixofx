@@ -2,5 +2,3 @@ pyparsing==2.0.2
 python-dateutil==2.2
 six==1.7.3
 wsgi-intercept==0.6.5
-pytest==2.5.2
-pytest-pythonpath==0.3

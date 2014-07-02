@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest==2.5.2
+pytest-pythonpath==0.3
+ipdb==0.8
+ipython==2.1.0
