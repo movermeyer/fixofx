@@ -13,13 +13,13 @@
 # limitations under the License.
 import unittest
 
-import ofx_test_utils
 from fixofx.ofx import Response
+from fixofx.test.ofx_test_utils import get_checking_stmt
 
 
 class DocumentTests(unittest.TestCase):
     def setUp(self):
-        self.checking = ofx_test_utils.get_checking_stmt()        
+        self.checking = get_checking_stmt()
     
     def test_statement_as_xml(self):
         response = Response(self.checking)

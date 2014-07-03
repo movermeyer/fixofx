@@ -15,11 +15,12 @@
 #
 # MockOfxServer - simple mock server for testing
 #
-import ofx_test_utils
-
 import urllib.request, urllib.error, urllib.parse
 from wsgi_intercept.urllib_intercept import install_opener
 import wsgi_intercept
+
+from fixofx.test.ofx_test_utils import get_creditcard_stmt, get_savings_stmt, get_checking_stmt
+
 
 class MockOfxServer:
     def __init__(self, port=9876):
@@ -34,13 +35,13 @@ class MockOfxServer:
             request_body = environment["wsgi.input"].read()
 
             if request_body.find("<ACCTTYPE>CHECKING".encode('utf-8')) != -1:
-                return [ofx_test_utils.get_checking_stmt()]
+                return [get_checking_stmt()]
             elif request_body.find("<ACCTTYPE>SAVINGS".encode('utf-8')) != -1:
-                return [ofx_test_utils.get_savings_stmt()]
+                return [get_savings_stmt()]
             else:
-                return [ofx_test_utils.get_creditcard_stmt()]
+                return [get_creditcard_stmt()]
         else:
-            return [ofx_test_utils.get_creditcard_stmt()]
+            return [get_creditcard_stmt()]
 
     def interceptor(self):
         return self.handleResponse
@@ -50,7 +51,7 @@ import unittest
 class MockOfxServerTest(unittest.TestCase):
     def setUp(self):
         self.server = MockOfxServer()
-        self.success = ofx_test_utils.get_creditcard_stmt()
+        self.success = get_creditcard_stmt()
 
     def test_simple_get(self):
         result = urllib.request.urlopen('http://localhost:9876/')

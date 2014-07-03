@@ -24,7 +24,7 @@
 from .account import Account
 from .document import Document
 from .error import Error
-from.filetyper import FileTyper
+from .filetyper import FileTyper
 from .generator import Generator, Transaction
 from .institution import Institution
 from .parser import Parser

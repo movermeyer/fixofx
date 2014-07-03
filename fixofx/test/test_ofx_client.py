@@ -12,10 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import unittest
-
-import ofx_test_utils
-from test_mock_ofx_server import MockOfxServer
 from fixofx.ofx import Institution, Account, Client
+from fixofx.test.ofx_test_utils import get_creditcard_stmt, get_savings_stmt, get_checking_stmt
+from fixofx.test.test_mock_ofx_server import MockOfxServer
 
 
 class ClientTests(unittest.TestCase):
@@ -41,9 +40,9 @@ class ClientTests(unittest.TestCase):
         self.username = "username"
         self.password = "password"
         self.client  = Client()
-        self.checking_stmt = ofx_test_utils.get_checking_stmt().decode('utf-8')
-        self.savings_stmt = ofx_test_utils.get_savings_stmt().decode('utf-8')
-        self.creditcard_stmt = ofx_test_utils.get_creditcard_stmt().decode('utf-8')
+        self.checking_stmt = get_checking_stmt().decode('utf-8')
+        self.savings_stmt = get_savings_stmt().decode('utf-8')
+        self.creditcard_stmt = get_creditcard_stmt().decode('utf-8')
     
     def test_checking_stmt_request(self):
         response = self.client.get_bank_statement(self.checking_account,

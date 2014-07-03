@@ -13,16 +13,16 @@
 # limitations under the License.
 import unittest
 
-import ofx_test_utils
 from fixofx.ofx import Parser
+from fixofx.test.ofx_test_utils import get_checking_stmt, get_creditcard_stmt, get_blank_memo_stmt
 
 
 class ParserTests(unittest.TestCase):
     def setUp(self):
         parser = Parser()
-        checking_stmt = ofx_test_utils.get_checking_stmt()
-        creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
-        blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
+        checking_stmt = get_checking_stmt()
+        creditcard_stmt = get_creditcard_stmt()
+        blank_memo_stmt = get_blank_memo_stmt()
         self.checkparse = parser.parse(checking_stmt)
         self.creditcardparse = parser.parse(creditcard_stmt)
         self.blank_memoparse = parser.parse(blank_memo_stmt)

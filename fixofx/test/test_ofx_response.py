@@ -14,14 +14,15 @@
 import unittest
 import xml.etree.ElementTree as ElementTree
 
-import ofx_test_utils
+
 from fixofx.ofx import Response
+from fixofx.test.ofx_test_utils import get_checking_stmt
 
 
 class ResponseTests(unittest.TestCase):
     def setUp(self):
-        self.response_text = ofx_test_utils.get_checking_stmt().decode('utf-8')
-        self.response = Response(ofx_test_utils.get_checking_stmt())
+        self.response_text = get_checking_stmt().decode('utf-8')
+        self.response = Response(get_checking_stmt())
 
     def test_signon_success(self):
         status = self.response.check_signon_status()
