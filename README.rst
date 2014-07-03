@@ -10,6 +10,14 @@ fixofx
     :target: https://landscape.io/github/henriquebastos/fixofx/master
     :alt: Code Health
 
+.. image:: https://pypip.in/v/fixofx/badge.png
+    :target: https://crate.io/packages/fixofx/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/fixofx/badge.png
+    :target: https://crate.io/packages/fixofx/
+    :alt: Number of PyPI downloads
+
 Canonicalize various financial data file formats to OFX 2 (a.k.a XML)
 ---------------------------------------------------------------------
 
