@@ -4,7 +4,7 @@ import unittest
 
 from pyparsing import ParseException
 
-from fixofx.ofxtools import OfcParser
+from fixofx.ofxtools.ofc_parser import OfcParser
 
 
 FIXTURES_PATH = join(realpath(dirname(__file__)), 'fixtures')

@@ -21,15 +21,15 @@
 # them with the prefix 'ofx.' and the class name.  For instance, to
 # refer to an OFX error, use the name 'ofx.Error'.
 
-from .account import Account
-from .document import Document
-from .error import Error
-from .filetyper import FileTyper
-from .generator import Generator, Transaction
-from .institution import Institution
-from .parser import Parser
-from .request import Request
-from .response import Response, Statement
-from .validators import RoutingNumber
-from .client import Client
-from .builder import *
+from fixofx.ofx.account import Account
+from fixofx.ofx.document import Document
+from fixofx.ofx.error import Error
+from fixofx.ofx.filetyper import FileTyper
+from fixofx.ofx.generator import Generator, Transaction
+from fixofx.ofx.institution import Institution
+from fixofx.ofx.parser import Parser
+from fixofx.ofx.request import Request
+from fixofx.ofx.response import Response, Statement
+from fixofx.ofx.validators import RoutingNumber
+from fixofx.ofx.client import Client
+from fixofx.ofx.builder import *

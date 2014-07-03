@@ -25,9 +25,9 @@ from time import localtime, strftime
 
 import dateutil.parser
 
+from fixofx.ofxtools.qif_parser import QifParser
 from fixofx.ofx import Response
 from fixofx.ofx.builder import *
-from fixofx.ofxtools import QifParser
 
 
 class QifConverter:

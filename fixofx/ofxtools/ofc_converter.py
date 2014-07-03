@@ -19,9 +19,9 @@
 #
 import sys
 
+from fixofx.ofxtools.ofc_parser import OfcParser
 from fixofx.ofx import Response
 from fixofx.ofx.builder import *
-from fixofx.ofxtools import OfcParser
 
 
 class OfcConverter:

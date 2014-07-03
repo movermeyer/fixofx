@@ -2,7 +2,7 @@
 from os.path import join, realpath, dirname
 import unittest
 
-from fixofx.ofxtools import OfcConverter
+from fixofx.ofxtools.ofc_converter import OfcConverter
 
 no_bankinfo_ofc_path = join(realpath(dirname(__file__)), 'fixtures', 'nobankinfo_and_trnrs.ofc')
 
