@@ -141,6 +141,8 @@ This project was created by devs at Wasabe Inc.
 
 Patches were contributed by `James Nylen <http://github.com/nylen>`_ and `Jeremy Milum <http://github.com/jmilum>`_.
 
+Many, many, many fixes were contributed by `Vanderson Mota <http://github.com/vandersonmota>`_.
+
 Packaging and conversion to Python 3 was made by `Henrique Bastos <http://github.com/henriquebastos>`_.
 
 License
