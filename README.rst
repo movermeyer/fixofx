@@ -53,12 +53,12 @@ Command line operation
 
 The simplest invocation of the script is::
 
-    ./ofxfix.py -f <path-to-data-file.fmt>
+    ofxfix.py -f <path-to-data-file.fmt>
     
 You can also pipe a data file to standard input -- that is, this invocation
 is equivalent to the above::
 
-    ./ofxfix.py < <path-to-data-file.fmt>
+    ofxfix.py < <path-to-data-file.fmt>
 
 There are several command line options, as follows::
 
