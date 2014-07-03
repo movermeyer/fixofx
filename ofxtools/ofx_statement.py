@@ -17,10 +17,9 @@
 #  ofxtools.OfxStatement - build up an OFX statement from source data.
 #
 
-import datetime
+import xml.sax.saxutils as sax
 import dateutil.parser
-import ofx
-import ofxtools
+from ofx.builder import *
 
 class OfxStatement:
     def __init__(self, fid="UNKNOWN", org="UNKNOWN", bankid="UNKNOWN",
@@ -37,7 +36,7 @@ class OfxStatement:
 
     def add_transaction(self, date=None, amount=None, number=None,
                         type=None, payee=None, memo=None):
-        txn = ofxtools.OfxTransaction(date, amount, number, type, payee, memo)
+        txn = OfxTransaction(date, amount, number, type, payee, memo)
 
     def to_str(self):
         pass
@@ -77,7 +76,7 @@ class OfxStatement:
                     TRNUID("0"),
                     self._ofx_status(),
                     CCSTMTRS(
-                        CURDEF(curdef),
+                        CURDEF(self.curdef),
                         CCACCTFROM(
                             ACCTID(self.acctid)),
                         self._ofx_txns(),
@@ -89,7 +88,7 @@ class OfxStatement:
                     TRNUID("0"),
                     self._ofx_status(),
                     STMTRS(
-                        CURDEF(curdef),
+                        CURDEF(self.curdef),
                         BANKACCTFROM(
                             BANKID(self.bankid),
                             ACCTID(self.acctid),
@@ -236,6 +235,7 @@ class OfxTransaction:
         # Try as best we can to parse the date into a datetime object. Note:
         # this assumes that we never see a timestamp, just the date, in any
         # QIF date.
+        txn_date = self.date
         if self.date != "UNKNOWN":
             try:
                 return dateutil.parser.parse(self.date, dayfirst=self.dayfirst)
@@ -260,7 +260,7 @@ class OfxTransaction:
                                                    txn_date[2:4],
                                                    txn_date[4:])
                         return dateutil.parser.parse(slashified,
-                                                     dayfirst=dayfirst)
+                                                     dayfirst=self.dayfirst)
                 except:
                     pass
 

@@ -17,16 +17,16 @@
 #  ofx.QifConverter - translate QIF files into OFX files.
 #
 
-import datetime
 import dateutil.parser
-import ofx
-import ofxtools
 import re
 import sys
 import xml.sax.saxutils as sax
-from decimal import *
+from decimal import Decimal
 from time import localtime, strftime
+from ofx import Response
 from ofx.builder import *
+from ofxtools import QifParser
+
 
 class QifConverter:
     def __init__(self, qif, fid="UNKNOWN", org="UNKNOWN", bankid="UNKNOWN",
@@ -121,7 +121,7 @@ class QifConverter:
 
         if self.debug: sys.stderr.write("Parsing document.\n")
 
-        parser = ofxtools.QifParser(debug=debug)
+        parser = QifParser(debug=debug)
         self.parsed_qif = parser.parse(self.qif)
 
         if self.debug: sys.stderr.write("Cleaning transactions.\n")
@@ -484,7 +484,7 @@ class QifConverter:
         if self.debug:
             sys.stderr.write(ofx102 + "\n")
             sys.stderr.write("Parsing OFX/1.02.\n")
-        response = ofx.Response(ofx102) #, debug=self.debug)
+        response = Response(ofx102) #, debug=self.debug)
 
         if self.debug: sys.stderr.write("Making OFX/2.0.\n")
         if self.dayfirst:

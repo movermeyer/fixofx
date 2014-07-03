@@ -18,10 +18,12 @@
 #  ofxtools.ofc_parser - parser class for reading OFC documents.
 #
 import re
-import ofxtools
-from pyparsing import alphanums, CharsNotIn, Dict, Forward, Group, \
-Literal, OneOrMore, White, Word, ZeroOrMore
+from pyparsing import (alphanums, CharsNotIn, Dict, Forward, Group,
+                       Literal, OneOrMore, White, Word, ZeroOrMore)
 from pyparsing import ParseException
+from ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
+from ofxtools.util import strip_empty_tags
+
 
 class OfcParser:
     """Dirt-simple OFC parser for interpreting OFC documents."""
@@ -36,9 +38,9 @@ class OfcParser:
 
         self.parser = Group(aggregate).setResultsName("document")
         if (debug):
-            self.parser.setDebugActions(ofxtools._ofxtoolsStartDebugAction,
-                                        ofxtools._ofxtoolsSuccessDebugAction,
-                                        ofxtools._ofxtoolsExceptionDebugAction)
+            self.parser.setDebugActions(_ofxtoolsStartDebugAction,
+                                        _ofxtoolsSuccessDebugAction,
+                                        _ofxtoolsExceptionDebugAction)
 
     def _tag(self, closed=True):
         """Generate parser definitions for OFX tags."""
@@ -55,7 +57,7 @@ class OfcParser:
         the parsed document."""
         ofc = self.add_zero_to_empty_ledger_tag(ofc)
         ofc = self.remove_inline_closing_tags(ofc)
-        ofc = ofxtools.util.strip_empty_tags(ofc)
+        ofc = strip_empty_tags(ofc)
         ofc = self._translate_chknum_to_checknum(ofc)
         # if you don't have a good stomach, skip this part
         # XXX:needs better solution

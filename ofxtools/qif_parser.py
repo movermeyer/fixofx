@@ -17,10 +17,11 @@
 #  ofx.QifParser - comprehend the mess that is QIF.
 #
 
-import ofxtools
-from pyparsing import CaselessLiteral, Group, LineEnd, Literal, \
-    MatchFirst, oneOf, OneOrMore, Optional, Or, restOfLine, SkipTo, \
-    White, Word, ZeroOrMore
+from pyparsing import (CaselessLiteral, Group, LineEnd,
+                       oneOf, OneOrMore, Or, restOfLine,
+                       White, ZeroOrMore)
+from ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
+
 
 class QifParser:
     def __init__(self, debug=False):
@@ -118,9 +119,9 @@ class QifParser:
                             ).setResultsName("QifStatement")
 
         if (debug):
-            self.parser.setDebugActions(ofxtools._ofxtoolsStartDebugAction,
-                                        ofxtools._ofxtoolsSuccessDebugAction,
-                                        ofxtools._ofxtoolsExceptionDebugAction)
+            self.parser.setDebugActions(_ofxtoolsStartDebugAction,
+                                        _ofxtoolsSuccessDebugAction,
+                                        _ofxtoolsExceptionDebugAction)
 
 
     def _items(self, items, name="Transaction"):

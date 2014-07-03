@@ -17,12 +17,11 @@
 #
 #  ofx.OfcConverter - translate OFC files into OFX files.
 #
-
-import ofx
-import ofxtools
-import re
 import sys
+from ofx import Response
 from ofx.builder import *
+from ofxtools import OfcParser
+
 
 class OfcConverter:
     def __init__(self, ofc, fid="UNKNOWN", org="UNKNOWN", curdef=None,
@@ -68,7 +67,7 @@ class OfcConverter:
 
         if self.debug: sys.stderr.write("Parsing document.\n")
 
-        parser = ofxtools.OfcParser(debug=debug)
+        parser = OfcParser(debug=debug)
         self.parsed_ofc = parser.parse(self.ofc)
 
         if self.debug: sys.stderr.write("Extracting document properties.\n")
@@ -113,7 +112,7 @@ class OfcConverter:
         if self.debug:
             sys.stderr.write(ofx102 + "\n")
             sys.stderr.write("Parsing OFX/1.02.\n")
-        response = ofx.Response(ofx102, debug=self.debug)
+        response = Response(ofx102, debug=self.debug)
 
         if self.debug: sys.stderr.write("Making OFX/2.0.\n")
 
