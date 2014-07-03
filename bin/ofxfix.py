@@ -22,7 +22,9 @@ import os
 import os.path
 import sys
 
-from fixofx import ofx, ofxtools
+from fixofx.ofx import Response, FileTyper
+from fixofx.ofxtools.ofc_converter import OfcConverter
+from fixofx.ofxtools.qif_converter import QifConverter
 
 
 def fixpath(filename):
@@ -85,13 +87,13 @@ def convert(filecontent, filetype, verbose=False, fid="UNKNOWN", org="UNKNOWN",
 
         # This will throw a ParseException if it is unable to recognize
         # the source format.
-        response = ofx.Response(text, debug=debug)
+        response = Response(text, debug=debug)
         return response.as_xml(original_format=filetype)
 
     elif filetype == "OFC":
         if verbose: sys.stderr.write("Beginning OFC conversion...\n")
-        converter = ofxtools.OfcConverter(text, fid=fid, org=org, curdef=curdef,
-                                          lang=lang, debug=debug)
+        converter = OfcConverter(text, fid=fid, org=org, curdef=curdef,
+                                 lang=lang, debug=debug)
 
         # This will throw a ParseException if it is unable to recognize
         # the source format.
@@ -104,11 +106,11 @@ def convert(filecontent, filetype, verbose=False, fid="UNKNOWN", org="UNKNOWN",
 
     elif filetype == "QIF":
         if verbose: sys.stderr.write("Beginning QIF conversion...\n")
-        converter = ofxtools.QifConverter(text, fid=fid, org=org,
-                                          bankid=bankid, accttype=accttype,
-                                          acctid=acctid, balance=balance,
-                                          curdef=curdef, lang=lang, dayfirst=dayfirst,
-                                          debug=debug)
+        converter = QifConverter(text, fid=fid, org=org,
+                                 bankid=bankid, accttype=accttype,
+                                 acctid=acctid, balance=balance,
+                                 curdef=curdef, lang=lang, dayfirst=dayfirst,
+                                 debug=debug)
 
         # This will throw a ParseException if it is unable to recognize
         # the source format.
@@ -215,7 +217,7 @@ try:
     # Determine the type of file contained in 'text', using a quick guess
     # rather than parsing the file to make sure.  (Parsing will fail
     # below if the guess is wrong on OFX/1 and QIF.)
-    filetype  = ofx.FileTyper(rawtext).trust()
+    filetype  = FileTyper(rawtext).trust()
 
     if options.type:
         print("Input file type is %s." % filetype)

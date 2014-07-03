@@ -15,14 +15,13 @@
 # limitations under the License.
 
 #
-# fakeofx.py - a quick and ugly hack to generate fake OFX for testing
+# ofxfake.py - a quick and ugly hack to generate fake OFX for testing
 #
 
 import os
 import os.path
 import sys
-
-from fixofx import ofx
+from fixofx.ofx import Generator
 
 
 def fixpath(filename):
@@ -137,8 +136,8 @@ def generate_transaction(stmt, tag, type, date=None):
     return amount
 
 
-stmt = ofx.Generator(fid="9789789", org="FAKEOFX", acctid=acctid, accttype=accttype, 
-                     bankid=bankid, availbal=balance, ledgerbal=balance)
+stmt = Generator(fid="9789789", org="FAKEOFX", acctid=acctid, accttype=accttype,
+                 bankid=bankid, availbal=balance, ledgerbal=balance)
 
 tags = list(spending_pcts.keys())
 tags.remove("housing")
