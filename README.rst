@@ -2,6 +2,14 @@
 fixofx
 ======
 
+.. image:: https://travis-ci.org/henriquebastos/fixofx.svg?branch=master
+    :target: https://travis-ci.org/henriquebastos/fixofx
+    :alt: Build Status
+
+.. image:: https://landscape.io/github/henriquebastos/fixofx/master/landscape.png
+    :target: https://landscape.io/github/henriquebastos/fixofx/master
+    :alt: Code Health
+
 Canonicalize various financial data file formats to OFX 2 (a.k.a XML)
 ---------------------------------------------------------------------
 
