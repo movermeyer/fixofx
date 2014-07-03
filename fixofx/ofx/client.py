@@ -16,8 +16,12 @@
 #
 # ofx.client - user agent for sending OFX requests and checking responses.
 #
-from ofx import Request, Error, Response
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
+
+from fixofx.ofx import Request, Error, Response
+
 
 class Client:
     """Network client for communicating with OFX servers.  The client

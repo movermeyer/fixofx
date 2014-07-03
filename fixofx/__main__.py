@@ -22,12 +22,14 @@ import os
 import os.path
 import sys
 
+from fixofx import ofx, ofxtools
+
+
 def fixpath(filename):
     mypath = os.path.dirname(sys._getframe(1).f_code.co_filename)
     return os.path.normpath(os.path.join(mypath, filename))
 
-import ofx
-import ofxtools
+
 from optparse import OptionParser
 from pyparsing import ParseException
 

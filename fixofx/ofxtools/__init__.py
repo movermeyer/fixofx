@@ -35,7 +35,8 @@ def _ofxtoolsSuccessDebugAction( instring, startloc, endloc, expr, toks ):
 def _ofxtoolsExceptionDebugAction( instring, loc, expr, exc ):
     sys.stderr.write("Exception raised: %s" % exc)
 
-from ofxtools.ofc_parser import OfcParser
-from ofxtools.ofc_converter import OfcConverter
-from ofxtools.qif_parser import QifParser
-from ofxtools.qif_converter import QifConverter
+
+from .qif_parser import QifParser
+from .qif_converter import QifConverter
+from .ofc_parser import OfcParser
+from .ofc_converter import OfcConverter

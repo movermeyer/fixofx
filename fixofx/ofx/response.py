@@ -16,7 +16,7 @@
 #
 #  ofx.response - access to contents of an OFX response document.
 #
-from ofx import Document, Parser, Account, Error
+from fixofx.ofx import Document, Parser, Account, Error
 
 
 class Response(Document):

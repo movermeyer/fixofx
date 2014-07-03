@@ -18,8 +18,11 @@
 #
 
 import xml.sax.saxutils as sax
+
 import dateutil.parser
-from ofx.builder import *
+
+from fixofx.ofx.builder import *
+
 
 class OfxStatement:
     def __init__(self, fid="UNKNOWN", org="UNKNOWN", bankid="UNKNOWN",

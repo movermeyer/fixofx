@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import unittest
-from ofx import Account, Request, Parser, Institution
+
+from fixofx.ofx import Account, Request, Parser, Institution
 
 
 class RequestTests(unittest.TestCase):

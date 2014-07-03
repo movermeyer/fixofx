@@ -20,7 +20,8 @@
 from pyparsing import (CaselessLiteral, Group, LineEnd,
                        oneOf, OneOrMore, Or, restOfLine,
                        White, ZeroOrMore)
-from ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
+
+from fixofx.ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
 
 
 class QifParser:

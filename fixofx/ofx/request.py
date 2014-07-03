@@ -17,9 +17,11 @@
 # ofx.request - build an OFX request document
 #
 
-from ofx.builder import *
 import datetime
 import uuid
+
+from fixofx.ofx.builder import *
+
 
 class Request:
     def __init__(self, cookie=4, app_name="Money", app_version="1400"):

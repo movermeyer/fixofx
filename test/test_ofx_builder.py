@@ -11,9 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from ofx.builder import *
-from ofx.builder import Tag  # not exported by default
 import unittest
+
+from fixofx.ofx.builder import *
+
+from fixofx.ofx.builder import Tag  # not exported by default
+
 
 class BuilderTests(unittest.TestCase):
     def test_blank_node(self):

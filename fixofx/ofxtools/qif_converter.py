@@ -17,15 +17,17 @@
 #  ofx.QifConverter - translate QIF files into OFX files.
 #
 
-import dateutil.parser
 import re
 import sys
 import xml.sax.saxutils as sax
 from decimal import Decimal
 from time import localtime, strftime
-from ofx import Response
-from ofx.builder import *
-from ofxtools import QifParser
+
+import dateutil.parser
+
+from fixofx.ofx import Response
+from fixofx.ofx.builder import *
+from fixofx.ofxtools import QifParser
 
 
 class QifConverter:

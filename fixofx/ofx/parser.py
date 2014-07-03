@@ -20,9 +20,12 @@
 
 import re
 import sys
+
 from pyparsing import (alphanums, alphas, CharsNotIn, Dict, Forward, Group,
-                       Literal, OneOrMore, Optional, SkipTo, White, Word, ZeroOrMore)
-from ofxtools.util import strip_empty_tags
+                       Literal, OneOrMore, Optional, White, Word, ZeroOrMore)
+
+from fixofx.ofxtools.util import strip_empty_tags
+
 
 def _ofxStartDebugAction( instring, loc, expr ):
     sys.stderr.write("Match %s at loc %s (%d,%d)" %

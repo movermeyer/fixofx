@@ -18,8 +18,10 @@
 #
 
 from datetime import date
-from ofx.builder import *
 import uuid
+
+from fixofx.ofx.builder import *
+
 
 class Generator:
     def __init__(self, fid="UNKNOWN", org="UNKNOWN", bankid="UNKNOWN",

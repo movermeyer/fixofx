@@ -11,10 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx_test_utils
-
 import unittest
-from ofx import Parser
+
+import ofx_test_utils
+from fixofx.ofx import Parser
 
 
 class ParserTests(unittest.TestCase):

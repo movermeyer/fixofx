@@ -1,9 +1,11 @@
 #coding: utf-8
-from ofxtools import OfcParser
 from os.path import join, realpath, dirname
+import unittest
+
 from pyparsing import ParseException
 
-import unittest
+from fixofx.ofxtools import OfcParser
+
 
 FIXTURES_PATH = join(realpath(dirname(__file__)), 'fixtures')
 

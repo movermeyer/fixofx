@@ -14,7 +14,8 @@
 import textwrap
 import unittest
 from time import localtime, strftime
-from ofxtools import QifConverter
+
+from fixofx.ofxtools import QifConverter
 
 
 class QifConverterTests(unittest.TestCase):

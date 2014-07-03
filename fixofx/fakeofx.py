@@ -22,13 +22,15 @@ import os
 import os.path
 import sys
 
+from fixofx import ofx
+
+
 def fixpath(filename):
     mypath = os.path.dirname(sys._getframe(1).f_code.co_filename)
     return os.path.normpath(os.path.join(mypath, filename))
 
 from datetime import date
 from datetime import timedelta
-import ofx
 import random
 
 def generate_amt(base_amt):

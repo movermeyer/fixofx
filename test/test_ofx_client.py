@@ -11,10 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import unittest
+
 import ofx_test_utils
 from test_mock_ofx_server import MockOfxServer
-import unittest
-from ofx import Institution, Account, Client
+from fixofx.ofx import Institution, Account, Client
 
 
 class ClientTests(unittest.TestCase):

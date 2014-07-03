@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import unittest
-from ofx import Institution, Account
+
+from fixofx.ofx import Institution, Account
 
 
 class AccountTests(unittest.TestCase):

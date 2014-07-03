@@ -11,11 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx_test_utils
-
 import unittest
 import xml.etree.ElementTree as ElementTree
-from ofx import Response
+
+import ofx_test_utils
+from fixofx.ofx import Response
 
 
 class ResponseTests(unittest.TestCase):

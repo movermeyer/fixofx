@@ -2,7 +2,8 @@
 import re
 from os.path import join, realpath, dirname
 import unittest
-from ofxtools.util import strip_empty_tags
+
+from fixofx.ofxtools.util import strip_empty_tags
 
 
 class StripEmptyTags(unittest.TestCase):

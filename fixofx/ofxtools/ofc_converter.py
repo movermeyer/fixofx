@@ -18,9 +18,10 @@
 #  ofx.OfcConverter - translate OFC files into OFX files.
 #
 import sys
-from ofx import Response
-from ofx.builder import *
-from ofxtools import OfcParser
+
+from fixofx.ofx import Response
+from fixofx.ofx.builder import *
+from fixofx.ofxtools import OfcParser
 
 
 class OfcConverter:

@@ -18,11 +18,13 @@
 #  ofxtools.ofc_parser - parser class for reading OFC documents.
 #
 import re
+
 from pyparsing import (alphanums, CharsNotIn, Dict, Forward, Group,
                        Literal, OneOrMore, White, Word, ZeroOrMore)
 from pyparsing import ParseException
-from ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
-from ofxtools.util import strip_empty_tags
+
+from fixofx.ofxtools import _ofxtoolsStartDebugAction, _ofxtoolsSuccessDebugAction, _ofxtoolsExceptionDebugAction
+from fixofx.ofxtools.util import strip_empty_tags
 
 
 class OfcParser:
