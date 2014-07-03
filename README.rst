@@ -5,17 +5,17 @@ fixofx
 Canonicalize various financial data file formats to OFX 2 (a.k.a XML)
 ---------------------------------------------------------------------
 
-``fixofx.py`` is a Python utility that canonicalizes various financial data file
+*Fixofx* is a library and an utility to canonicalizes various financial data file
 formats to OFX 2, which is an XML format and hence a lot easier for other code
 to deal with. It recognizes OFX 1.x, OFX 2.x, QFX, QIF, and OFC.
 
-Pipe a data file to ``fixofx.py``, or specify an input file with the ``-f`` flag, and
+Pipe a data file to ``ofxfix.py``, or specify an input file with the ``-f`` flag, and
 if the file is successfully parsed, an OFX 2 file with equivalent data will
 be output.
 
-Various parts of fixofx go through contortions to try to interpret ambiguous
+Various parts of *Fixofx* go through contortions to try to interpret ambiguous
 or malformed data, both of which are very common when importing bank data
-files. QIF, in particular, is an extremely irregular file format, and fixofx
+files. QIF, in particular, is an extremely irregular file format, and *Fixofx*
 makes best efforts but will not cover all cases. Also, some international
 formats are recognized and interpreted, such as British versus US date
 formats, but more work could be done on this.
@@ -24,10 +24,10 @@ Sometimes a data file will not contain information that is important for OFX --
 for instance, neither OFC nor QIF include the OFX "FID" and "ORG" fields. Other times,
 the data format will include this data, but inconsistently, such as QIF's account
 type, which can be ambiguous or absent. In these cases you can ask the user to 
-provide hints to fixofx, and convey those hints via command-line options (see 
+provide hints to *Fixofx*, and convey those hints via command-line options (see
 `Command line operation`_, below).
 
-The fixofx project also includes ``fakeofx.py``, a utility script to generate fake
+The *Fixofx* project also includes ``ofxfake.py``, a utility script to generate fake
 OFX files for testing purposes.
 
 Installation
@@ -53,12 +53,12 @@ Command line operation
 
 The simplest invocation of the script is::
 
-    ./fixofx.py -f <path-to-data-file.fmt>
+    ./ofxfix.py -f <path-to-data-file.fmt>
     
 You can also pipe a data file to standard input -- that is, this invocation
 is equivalent to the above::
 
-    ./fixofx.py < <path-to-data-file.fmt>
+    ./ofxfix.py < <path-to-data-file.fmt>
 
 There are several command line options, as follows::
 
@@ -95,10 +95,10 @@ data removed) snippet as a gist if you want someone else to help. Usually a
 difference will jump out at you after a while if you're familiar with the
 format.
 
-fakeofx.py
+ofxfake.py
 ----------
 
-The ``fakeofx.py`` script generates real-ish-seeming OFX for testing and demo
+The ``ofxfake.py`` script generates real-ish-seeming OFX for testing and demo
 purposes. You can generate a few fake OFX files using the script, and upload
 them to Wesabe to try it out or demonstrate it without showing your real
 account data to anyone.
@@ -110,7 +110,7 @@ choose to generate a checking or credit card statement and has no options.
 Contributing
 ------------
 
-Contributions to fixofx are welcome. Please add tests for your contribution
+Contributions to *Fixofx* are welcome. Please add tests for your contribution
 and make sure all tests pass before sending a pull request. Here are some
 ideas for things to do:
 
@@ -120,10 +120,10 @@ ideas for things to do:
   with a variety of malformed OFX inputs. Each new regex makes things slower
   and makes the baby jwz cry. Find a better path. **(EASY)**
 * Fill in missing tests, especially in QIF conversion. **(MEDIUM)**
-* fixofx currently converts QIF to OFX/1, and then OFX/1 to OFX/2, which is
+* *Fixofx* currently converts QIF to OFX/1, and then OFX/1 to OFX/2, which is
   totally crazy-pants and makes everything ungodly slow. Go straight from QIF
   to OFX/2 instead. **(MEDIUM)**
-* Some people would be happy if fixofx accepted a bunch of input formats (as
+* Some people would be happy if *Fixofx* accepted a bunch of input formats (as
   it does) and had options for outputing any of those formats, too (right now
   OFX/2 output is the only option). Basically, convert everything to an
   internal representation and then output whatever kind of document the user
@@ -142,3 +142,8 @@ This project was created by devs at Wasabe Inc.
 Patches were contributed by `James Nylen <http://github.com/nylen>`_ and `Jeremy Milum <http://github.com/jmilum>`_.
 
 Packaging and conversion to Python 3 was made by `Henrique Bastos <http://github.com/henriquebastos>`_.
+
+License
+-------
+
+Apache License 2.0
