@@ -16,8 +16,7 @@
 #
 # ofx.client - user agent for sending OFX requests and checking responses.
 #
-
-import ofx
+from ofx import Request, Error, Response
 import urllib.request, urllib.error, urllib.parse
 
 class Client:
@@ -36,12 +35,12 @@ class Client:
     def get_fi_profile(self, institution,
                        username="anonymous00000000000000000000000",
                        password="anonymous00000000000000000000000"):
-        request = ofx.Request()
+        request = Request()
         self.request_msg = request.fi_profile(institution, username, password)
         return self._send_request(institution.ofx_url, self.request_msg)
 
     def get_account_info(self, institution, username, password):
-        request = ofx.Request()
+        request = Request()
         self.request_msg = request.account_info(institution, username, password)
         return self._send_request(institution.ofx_url, self.request_msg)
 
@@ -59,7 +58,7 @@ class Client:
         """Sends an OFX request for the given user's bank account
         statement, and returns that statement as an OFX document if
         the request is successful."""
-        request = ofx.Request()
+        request = Request()
         # I'm breaking out these retries by statement type since I'm assuming that bank,
         # credit card, and investment OFX servers may each have different behaviors.
         try:
@@ -68,12 +67,12 @@ class Client:
             # American Express seems to only include back to the first of the year.
             self.request_msg = request.bank_stmt(account, username, password, daysago=365)
             return self._send_request(account.institution.ofx_url, self.request_msg)
-        except ofx.Error as detail:
+        except Error as detail:
             try:
                 # If that didn't work, try 90 days back.
                 self.request_msg = request.bank_stmt(account, username, password, daysago=90)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
-            except ofx.Error as detail:
+            except Error as detail:
                 # If that also didn't work, try 30 days back, which has been our default and
                 # which always seems to work across all OFX servers.
                 self.request_msg = request.bank_stmt(account, username, password, daysago=30)
@@ -87,15 +86,15 @@ class Client:
         message."""
         # See comments in get_bank_statement, above, which explain these try/catch
         # blocks.
-        request = ofx.Request()
+        request = Request()
         try:
             self.request_msg = request.creditcard_stmt(account, username, password, daysago=365)
             return self._send_request(account.institution.ofx_url, self.request_msg)
-        except ofx.Error as detail:
+        except Error as detail:
             try:
                 self.request_msg = request.creditcard_stmt(account, username, password, daysago=90)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
-            except ofx.Error as detail:
+            except Error as detail:
                 self.request_msg = request.creditcard_stmt(account, username, password, daysago=30)
                 return self._send_request(account.institution.ofx_url, self.request_msg)
 
@@ -115,7 +114,7 @@ class Client:
         statement, and returns that statement as an OFX document if
         the request is successful."""
         acct_type = account.get_ofx_accttype()
-        request = ofx.Request()
+        request = Request()
         self.request_msg = request.bank_closing(account, username, password)
         return self._send_request(account.institution.ofx_url, self.request_msg)
 
@@ -125,7 +124,7 @@ class Client:
         successful.  If the OFX server returns an error, the client
         will throw an OfxException indicating the error code and
         message."""
-        request = ofx.Request()
+        request = Request()
         self.request_msg = request.creditcard_closing(account, username, password)
         return self._send_request(account.institution.ofx_url, self.request_msg)
 
@@ -145,7 +144,7 @@ class Client:
         response = stream.read()
         stream.close()
 
-        response = ofx.Response(response)
+        response = Response(response)
         response.check_signon_status()
 
         parsed_ofx = response.as_dict()
@@ -192,6 +191,6 @@ class Client:
             # The "description" allows the code to give some indication
             # of where the error originated (for instance, the kind of
             # account we were trying to download when the error occurred).
-            error = ofx.Error(description, code, severity, message)
+            error = Error(description, code, severity, message)
             raise error
 

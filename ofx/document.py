@@ -16,8 +16,6 @@
 #
 #  ofx.document - abstract OFX document.
 #
-
-import ofx
 import xml.sax.saxutils as sax
 
 class Document:

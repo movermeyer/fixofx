@@ -20,8 +20,8 @@
 
 import re
 import sys
-from pyparsing import alphanums, alphas, CharsNotIn, Dict, Forward, Group, \
-Literal, OneOrMore, Optional, SkipTo, White, Word, ZeroOrMore
+from pyparsing import (alphanums, alphas, CharsNotIn, Dict, Forward, Group,
+                       Literal, OneOrMore, Optional, SkipTo, White, Word, ZeroOrMore)
 from ofxtools.util import strip_empty_tags
 
 def _ofxStartDebugAction( instring, loc, expr ):

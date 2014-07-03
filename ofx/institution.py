@@ -21,7 +21,6 @@
 # At this point it works fine as a data structure.  Later on
 # it would be nice if it actually, you know, did something.
 
-import ofx
 
 class Institution:
     def __init__(self, name="", ofx_org="", ofx_url="", ofx_fid=""):
@@ -44,9 +43,9 @@ class Institution:
                  'ofx_fid' : self.ofx_fid }
 
     def load_from_dict(fi_dict):
-        return ofx.Institution(name=fi_dict.get('name'),
-                               ofx_org=fi_dict.get('ofx_org'),
-                               ofx_url=fi_dict.get('ofx_url'),
-                               ofx_fid=fi_dict.get('ofx_fid'))
+        return Institution(name=fi_dict.get('name'),
+                           ofx_org=fi_dict.get('ofx_org'),
+                           ofx_url=fi_dict.get('ofx_url'),
+                           ofx_fid=fi_dict.get('ofx_fid'))
     load_from_dict = staticmethod(load_from_dict)
 

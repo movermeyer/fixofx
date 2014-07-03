@@ -21,15 +21,15 @@
 # them with the prefix 'ofx.' and the class name.  For instance, to
 # refer to an OFX error, use the name 'ofx.Error'.
 
-from ofx.account import *
+from ofx.account import Account
+from ofx.document import Document
+from ofx.error import Error
+from ofx.filetyper import FileTyper
+from ofx.generator import Generator, Transaction
+from ofx.institution import Institution
+from ofx.parser import Parser
+from ofx.request import Request
+from ofx.response import Response, Statement
+from ofx.validators import RoutingNumber
+from ofx.client import Client
 from ofx.builder import *
-from ofx.client import *
-from ofx.document import *
-from ofx.error import *
-from ofx.filetyper import *
-from ofx.generator import *
-from ofx.institution import *
-from ofx.parser import *
-from ofx.request import *
-from ofx.response import *
-from ofx.validators import *

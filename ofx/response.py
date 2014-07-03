@@ -16,10 +16,10 @@
 #
 #  ofx.response - access to contents of an OFX response document.
 #
+from ofx import Document, Parser, Account, Error
 
-import ofx
 
-class Response(ofx.Document):
+class Response(Document):
     def __init__(self, response, debug=False):
         # Bank of America (California) seems to be putting out bad Content-type
         # headers on manual OFX download.  I'm special-casing this out since
@@ -40,7 +40,7 @@ class Response(ofx.Document):
         # FIs are causing it, though.
         self.raw_response = self.raw_response.replace('****OFX download terminated due to exception: Null or zero length FITID****', '')
 
-        parser = ofx.Parser(debug)
+        parser = Parser(debug)
         self.parse_dict = parser.parse(self.raw_response)
         self.ofx = self.parse_dict["body"]["OFX"][0].asDict()
 
@@ -64,7 +64,7 @@ class Response(ofx.Document):
         for tag in list(self.ofx.keys()):
             if tag == "BANKMSGSRSV1" or tag == "CREDITCARDMSGSRSV1":
                 for sub_tag in self.ofx[tag]:
-                    statements.append(ofx.Statement(sub_tag))
+                    statements.append(Statement(sub_tag))
         return statements
 
     def get_accounts(self):
@@ -95,11 +95,11 @@ class Response(ofx.Document):
 
         if "BANKACCTINFO" in acct_dict:
             acctinfo = acct_dict["BANKACCTINFO"]
-            return ofx.Account(ofx_block=acctinfo["BANKACCTFROM"], desc=desc)
+            return Account(ofx_block=acctinfo["BANKACCTFROM"], desc=desc)
 
         elif "CCACCTINFO" in acct_dict:
             acctinfo = acct_dict["CCACCTINFO"]
-            account = ofx.Account(ofx_block=acctinfo["CCACCTFROM"], desc=desc)
+            account = Account(ofx_block=acctinfo["CCACCTFROM"], desc=desc)
             account.acct_type = "CREDITCARD"
             return account
 
@@ -136,21 +136,21 @@ class Response(ofx.Document):
             # The "description" allows the code to give some indication
             # of where the error originated (for instance, the kind of
             # account we were trying to download when the error occurred).
-            error = ofx.Error(description, code, severity, message)
+            error = Error(description, code, severity, message)
             raise error
 
 
-class Statement(ofx.Document):
+class Statement(Document):
     def __init__(self, statement):
         self.parse_result = statement
         self.parse_dict = self.parse_result.asDict()
 
         if "STMTRS" in self.parse_dict:
             stmt = self.parse_dict["STMTRS"]
-            self.account = ofx.Account(ofx_block=stmt["BANKACCTFROM"])
+            self.account = Account(ofx_block=stmt["BANKACCTFROM"])
         elif "CCSTMTRS" in self.parse_dict:
             stmt = self.parse_dict["CCSTMTRS"]
-            self.account = ofx.Account(ofx_block=stmt["CCACCTFROM"])
+            self.account = Account(ofx_block=stmt["CCACCTFROM"])
             self.account.acct_type = "CREDITCARD"
         else:
             error = ValueError("Unknown statement type: %s." % statement)

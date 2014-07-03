@@ -16,9 +16,6 @@
 #
 # ofx.account - container for information about a bank or credit card account.
 #
-
-import ofx
-
 class Account:
     def __init__(self, acct_type="", acct_number="", aba_number="",
                  balance=None, desc=None, institution=None, ofx_block=None):
@@ -97,11 +94,11 @@ class Account:
         return acct_dict
 
     def load_from_dict(acct_dict):
-        return ofx.Account(acct_type=acct_dict.get('acct_type'),
-                           acct_number=acct_dict.get('acct_number'),
-                           aba_number=acct_dict.get('aba_number'),
-                           balance=acct_dict.get('balance'),
-                           desc=acct_dict.get('desc'))
+        return Account(acct_type=acct_dict.get('acct_type'),
+                       acct_number=acct_dict.get('acct_number'),
+                       aba_number=acct_dict.get('aba_number'),
+                       balance=acct_dict.get('balance'),
+                       desc=acct_dict.get('desc'))
     load_from_dict = staticmethod(load_from_dict)
 
 

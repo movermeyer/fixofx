@@ -18,7 +18,6 @@
 #
 
 from datetime import date
-import ofx
 from ofx.builder import *
 import uuid
 
@@ -40,7 +39,7 @@ class Generator:
 
     def add_transaction(self, date=None, amount=None, number=None,
                         txid=None, type=None, payee=None, memo=None):
-        txn = ofx.Transaction(date=date, amount=amount, number=number,
+        txn = Transaction(date=date, amount=amount, number=number,
                               txid=txid, type=type, payee=payee, memo=memo)
         txn_date_list = self.txns_by_date.get(txn.date, [])
         txn_date_list.append(txn)
