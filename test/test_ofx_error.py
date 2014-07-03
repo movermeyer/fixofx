@@ -11,12 +11,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import unittest
+from ofx import Error
 
-class ErrorTests(unittest.TestCase):    
+
+class ErrorTests(unittest.TestCase):
     def test_ofx_error_to_str(self):
-        error = ofx.Error("test", code=9999, severity="ERROR", message="Test")
+        error = Error("test", code=9999, severity="ERROR", message="Test")
         expected = "Test\n(ERROR 9999: Unknown error code)"
         self.assertEqual(expected, error.str())
         self.assertEqual(expected, str(error))

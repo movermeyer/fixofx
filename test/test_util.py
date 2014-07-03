@@ -2,7 +2,7 @@
 import re
 from os.path import join, realpath, dirname
 import unittest
-from ofxtools import util
+from ofxtools.util import strip_empty_tags
 
 
 class StripEmptyTags(unittest.TestCase):
@@ -11,7 +11,7 @@ class StripEmptyTags(unittest.TestCase):
             empty_tags_file = f.read()
         empty_tag_pattern = '<(?P<tag>[^>]+)>\s*</(?P=tag)>'
 
-        result = util.strip_empty_tags(empty_tags_file)
+        result = strip_empty_tags(empty_tags_file)
         self.assertFalse(re.match(empty_tag_pattern, result))
 
 

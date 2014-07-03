@@ -11,10 +11,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofxtools
 import textwrap
 import unittest
 from time import localtime, strftime
+from ofxtools import QifConverter
+
 
 class QifConverterTests(unittest.TestCase):
     def test_bank_stmttype(self):
@@ -23,7 +24,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.accttype, "CHECKING")
 
     def test_ccard_stmttype(self):
@@ -32,7 +33,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.accttype, "CREDITCARD")
 
     def test_no_stmttype(self):
@@ -40,7 +41,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.accttype, "CHECKING")
 
     def test_no_txns(self):
@@ -48,7 +49,7 @@ class QifConverterTests(unittest.TestCase):
         !Type:Bank
         ''')
         today = strftime("%Y%m%d", localtime())
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.start_date, today)
         self.assertEqual(converter.end_date, today)
 
@@ -58,7 +59,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20050113" in converter.txns_by_date)
 
     def test_uk_date(self):
@@ -67,7 +68,7 @@ class QifConverterTests(unittest.TestCase):
         D13/01/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20050113" in converter.txns_by_date)
 
     def test_ambiguous_date(self):
@@ -76,7 +77,7 @@ class QifConverterTests(unittest.TestCase):
         D12/01/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20051201" in converter.txns_by_date)
 
     def test_mixed_us_dates(self):
@@ -87,7 +88,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20050112" in converter.txns_by_date)
         self.assertTrue("20050113" in converter.txns_by_date)
 
@@ -99,7 +100,7 @@ class QifConverterTests(unittest.TestCase):
         D13/01/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20050112" in converter.txns_by_date)
         self.assertTrue("20050113" in converter.txns_by_date)
 
@@ -109,7 +110,7 @@ class QifConverterTests(unittest.TestCase):
         D12012005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertTrue("20051201" in converter.txns_by_date)
 
     def test_unparseable_date(self):
@@ -118,7 +119,7 @@ class QifConverterTests(unittest.TestCase):
         DFnargle
         ^
         ''')
-        self.assertRaises(ValueError, ofxtools.QifConverter, qiftext)
+        self.assertRaises(ValueError, QifConverter, qiftext)
 
     def test_len_eight_no_int_date(self):
         qiftext = textwrap.dedent('''\
@@ -126,7 +127,7 @@ class QifConverterTests(unittest.TestCase):
         DAAAAAAAA
         ^
         ''')
-        self.assertRaises(ValueError, ofxtools.QifConverter, qiftext)
+        self.assertRaises(ValueError, QifConverter, qiftext)
 
     def test_asc_dates(self):
         qiftext = textwrap.dedent('''\
@@ -142,7 +143,7 @@ class QifConverterTests(unittest.TestCase):
         D02/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.start_date, "20050113")
         self.assertEqual(converter.end_date, "20050213")
         self.assertEqual(len(list(converter.txns_by_date.keys())), 4)
@@ -161,7 +162,7 @@ class QifConverterTests(unittest.TestCase):
         D01/13/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.start_date, "20050113")
         self.assertEqual(converter.end_date, "20050213")
         self.assertEqual(len(list(converter.txns_by_date.keys())), 4)
@@ -180,7 +181,7 @@ class QifConverterTests(unittest.TestCase):
         D01/27/2005
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         self.assertEqual(converter.start_date, "20050113")
         self.assertEqual(converter.end_date, "20050213")
         self.assertEqual(len(list(converter.txns_by_date.keys())), 4)
@@ -192,7 +193,7 @@ class QifConverterTests(unittest.TestCase):
         T417.93
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         ofx102 = converter.to_ofx102()
         self.assertTrue(ofx102.find('<CURDEF>USD') != -1)
 
@@ -203,7 +204,7 @@ class QifConverterTests(unittest.TestCase):
         T417.93
         ^EUR
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         ofx102 = converter.to_ofx102()
         self.assertTrue(ofx102.find('<CURDEF>EUR') != -1)
 
@@ -214,7 +215,7 @@ class QifConverterTests(unittest.TestCase):
         T417.93
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext, curdef='GBP')
+        converter = QifConverter(qiftext, curdef='GBP')
         ofx102 = converter.to_ofx102()
         self.assertTrue(ofx102.find('<CURDEF>GBP') != -1)
 
@@ -225,7 +226,7 @@ class QifConverterTests(unittest.TestCase):
         U25.42
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20050201"][0]
         self.assertEqual(txn["Amount"], "25.42")
 
@@ -236,7 +237,7 @@ class QifConverterTests(unittest.TestCase):
         T417.930
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual(txn["Amount"], "417.93")
 
@@ -250,7 +251,7 @@ class QifConverterTests(unittest.TestCase):
         T-
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn_list = converter.txns_by_date["20050201"]
         self.assertEqual(len(txn_list), 1)
         txn = txn_list[0]
@@ -263,7 +264,7 @@ class QifConverterTests(unittest.TestCase):
         T26.24-
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20080806"][0]
         self.assertEqual(txn["Amount"], "-26.24")
 
@@ -275,7 +276,7 @@ class QifConverterTests(unittest.TestCase):
         NN/A
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual("Number" in txn, False)
 
@@ -287,7 +288,7 @@ class QifConverterTests(unittest.TestCase):
         NXXXX-XXXX-XXXX-1234
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual("Number" in txn, False)
 
@@ -299,7 +300,7 @@ class QifConverterTests(unittest.TestCase):
         N1234
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual("Number" in txn, False)
 
@@ -311,7 +312,7 @@ class QifConverterTests(unittest.TestCase):
         N1234
         ^
         ''')
-        converter = ofxtools.QifConverter(qiftext)
+        converter = QifConverter(qiftext)
         txn = converter.txns_by_date["20070125"][0]
         self.assertEqual(txn.get("Type"), "CHECK")
 

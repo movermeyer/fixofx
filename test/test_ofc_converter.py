@@ -1,5 +1,5 @@
 #coding: utf-8
-from ofxtools.ofc_converter import OfcConverter
+from ofxtools import OfcConverter
 from os.path import join, realpath, dirname
 
 import unittest

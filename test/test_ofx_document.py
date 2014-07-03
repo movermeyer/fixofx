@@ -11,17 +11,18 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import ofx_test_utils
 
 import unittest
+from ofx import Response
+
 
 class DocumentTests(unittest.TestCase):
     def setUp(self):
         self.checking = ofx_test_utils.get_checking_stmt()        
     
     def test_statement_as_xml(self):
-        response = ofx.Response(self.checking)
+        response = Response(self.checking)
         self.assertEqual('<?xml version="1.0"', response.as_xml()[:19])
     
 

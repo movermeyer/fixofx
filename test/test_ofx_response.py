@@ -11,16 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import ofx_test_utils
 
 import unittest
 import xml.etree.ElementTree as ElementTree
+from ofx import Response
+
 
 class ResponseTests(unittest.TestCase):
     def setUp(self):
         self.response_text = ofx_test_utils.get_checking_stmt().decode('utf-8')
-        self.response = ofx.Response(ofx_test_utils.get_checking_stmt())
+        self.response = Response(ofx_test_utils.get_checking_stmt())
 
     def test_signon_success(self):
         status = self.response.check_signon_status()

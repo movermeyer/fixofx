@@ -11,16 +11,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import unittest
+from ofx import RoutingNumber
+
 
 class ValidatorTests(unittest.TestCase):
     def setUp(self):
-        self.good_aba = ofx.RoutingNumber("314074269")
-        self.bad_aba  = ofx.RoutingNumber("123456789")
+        self.good_aba = RoutingNumber("314074269")
+        self.bad_aba  = RoutingNumber("123456789")
     
     def test_not_a_number(self):
-        nan = ofx.RoutingNumber("123abd")
+        nan = RoutingNumber("123abd")
         self.assertEqual(nan.is_valid(), False)
         self.assertEqual(nan.get_type(), None)
         self.assertEqual(nan.get_region(), None)
@@ -32,79 +33,79 @@ class ValidatorTests(unittest.TestCase):
         self.assertEqual(self.bad_aba.is_valid(), False)
     
     def test_aba_types(self):
-        self.assertEqual(ofx.RoutingNumber("001234567").get_type(), 
+        self.assertEqual(RoutingNumber("001234567").get_type(), 
                          "United States Government")
-        self.assertEqual(ofx.RoutingNumber("011234567").get_type(), 
+        self.assertEqual(RoutingNumber("011234567").get_type(), 
                          "Primary")
-        self.assertEqual(ofx.RoutingNumber("071234567").get_type(), 
+        self.assertEqual(RoutingNumber("071234567").get_type(), 
                          "Primary")
-        self.assertEqual(ofx.RoutingNumber("121234567").get_type(), 
+        self.assertEqual(RoutingNumber("121234567").get_type(), 
                          "Primary")
-        self.assertEqual(ofx.RoutingNumber("131234567").get_type(), 
+        self.assertEqual(RoutingNumber("131234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("201234567").get_type(), 
+        self.assertEqual(RoutingNumber("201234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("211234567").get_type(), 
+        self.assertEqual(RoutingNumber("211234567").get_type(), 
                          "Thrift")
-        self.assertEqual(ofx.RoutingNumber("251234567").get_type(), 
+        self.assertEqual(RoutingNumber("251234567").get_type(), 
                          "Thrift")
-        self.assertEqual(ofx.RoutingNumber("321234567").get_type(), 
+        self.assertEqual(RoutingNumber("321234567").get_type(), 
                          "Thrift")
-        self.assertEqual(ofx.RoutingNumber("331234567").get_type(), 
+        self.assertEqual(RoutingNumber("331234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("601234567").get_type(), 
+        self.assertEqual(RoutingNumber("601234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("611234567").get_type(), 
+        self.assertEqual(RoutingNumber("611234567").get_type(), 
                          "Electronic")
-        self.assertEqual(ofx.RoutingNumber("641234567").get_type(), 
+        self.assertEqual(RoutingNumber("641234567").get_type(), 
                          "Electronic")
-        self.assertEqual(ofx.RoutingNumber("721234567").get_type(), 
+        self.assertEqual(RoutingNumber("721234567").get_type(), 
                          "Electronic")
-        self.assertEqual(ofx.RoutingNumber("731234567").get_type(), 
+        self.assertEqual(RoutingNumber("731234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("791234567").get_type(), 
+        self.assertEqual(RoutingNumber("791234567").get_type(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("801234567").get_type(), 
+        self.assertEqual(RoutingNumber("801234567").get_type(), 
                          "Traveller's Cheque")
-        self.assertEqual(ofx.RoutingNumber("811234567").get_type(), 
+        self.assertEqual(RoutingNumber("811234567").get_type(), 
                          None)
     
     def test_aba_regions(self):
-        self.assertEqual(ofx.RoutingNumber("001234567").get_region(), 
+        self.assertEqual(RoutingNumber("001234567").get_region(), 
                          "United States Government")
-        self.assertEqual(ofx.RoutingNumber("011234567").get_region(), 
+        self.assertEqual(RoutingNumber("011234567").get_region(), 
                          "Boston")
-        self.assertEqual(ofx.RoutingNumber("071234567").get_region(), 
+        self.assertEqual(RoutingNumber("071234567").get_region(), 
                          "Chicago")
-        self.assertEqual(ofx.RoutingNumber("121234567").get_region(), 
+        self.assertEqual(RoutingNumber("121234567").get_region(), 
                          "San Francisco")
-        self.assertEqual(ofx.RoutingNumber("131234567").get_region(), 
+        self.assertEqual(RoutingNumber("131234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("201234567").get_region(), 
+        self.assertEqual(RoutingNumber("201234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("211234567").get_region(), 
+        self.assertEqual(RoutingNumber("211234567").get_region(), 
                          "Boston")
-        self.assertEqual(ofx.RoutingNumber("251234567").get_region(), 
+        self.assertEqual(RoutingNumber("251234567").get_region(), 
                          "Richmond")
-        self.assertEqual(ofx.RoutingNumber("321234567").get_region(), 
+        self.assertEqual(RoutingNumber("321234567").get_region(), 
                          "San Francisco")
-        self.assertEqual(ofx.RoutingNumber("331234567").get_region(), 
+        self.assertEqual(RoutingNumber("331234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("601234567").get_region(), 
+        self.assertEqual(RoutingNumber("601234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("611234567").get_region(), 
+        self.assertEqual(RoutingNumber("611234567").get_region(), 
                          "Boston")
-        self.assertEqual(ofx.RoutingNumber("641234567").get_region(), 
+        self.assertEqual(RoutingNumber("641234567").get_region(), 
                          "Cleveland")
-        self.assertEqual(ofx.RoutingNumber("721234567").get_region(), 
+        self.assertEqual(RoutingNumber("721234567").get_region(), 
                          "San Francisco")
-        self.assertEqual(ofx.RoutingNumber("731234567").get_region(), 
+        self.assertEqual(RoutingNumber("731234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("791234567").get_region(), 
+        self.assertEqual(RoutingNumber("791234567").get_region(), 
                          None)
-        self.assertEqual(ofx.RoutingNumber("801234567").get_region(), 
+        self.assertEqual(RoutingNumber("801234567").get_region(), 
                          "Traveller's Cheque")
-        self.assertEqual(ofx.RoutingNumber("811234567").get_region(), 
+        self.assertEqual(RoutingNumber("811234567").get_region(), 
                          None)
     
     def test_aba_string(self):

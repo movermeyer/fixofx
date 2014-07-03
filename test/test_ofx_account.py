@@ -11,20 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import unittest
+from ofx import Institution, Account
+
 
 class AccountTests(unittest.TestCase):
     def setUp(self):
-        self.institution = ofx.Institution(name="Test Bank", 
+        self.institution = Institution(name="Test Bank",
                                            ofx_org="Test Bank", 
                                            ofx_url="https://ofx.example.com", 
                                            ofx_fid="9999999")
-        self.good_acct = ofx.Account(acct_type="CHECKING", 
+        self.good_acct = Account(acct_type="CHECKING",
                                      acct_number="1122334455", 
                                      aba_number="123456789", 
                                      institution=self.institution)
-        self.bad_acct  = ofx.Account(acct_type="Fnargle",
+        self.bad_acct  = Account(acct_type="Fnargle",
                                      acct_number="", aba_number="", 
                                      institution=None)
     
@@ -48,14 +49,14 @@ class AccountTests(unittest.TestCase):
     
     def test_load_from_dict(self):
         testdict = self.good_acct.as_dict()
-        new_acct = ofx.Account.load_from_dict(testdict)
+        new_acct = Account.load_from_dict(testdict)
         self.assertEqual(new_acct.acct_type, "CHECKING")
         self.assertEqual(new_acct.acct_number, "1122334455")
         self.assertEqual(new_acct.aba_number, "123456789")
         self.assertEqual(new_acct.desc, None)
         self.assertEqual(new_acct.balance, None)
         
-        new_fi = ofx.Institution.load_from_dict(testdict['institution'])
+        new_fi = Institution.load_from_dict(testdict['institution'])
         self.assertEqual(new_fi.name, "Test Bank")
         self.assertEqual(new_fi.ofx_org, "Test Bank")
         self.assertEqual(new_fi.ofx_url, "https://ofx.example.com")

@@ -1,5 +1,5 @@
 #coding: utf-8
-from ofxtools.ofc_parser import OfcParser
+from ofxtools import OfcParser
 from os.path import join, realpath, dirname
 from pyparsing import ParseException
 

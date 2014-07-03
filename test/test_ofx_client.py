@@ -12,34 +12,34 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import ofx_test_utils
-import ofx
 from test_mock_ofx_server import MockOfxServer
-
 import unittest
+from ofx import Institution, Account, Client
+
 
 class ClientTests(unittest.TestCase):
     def setUp(self):
         self.port    = 9486
         self.server  = MockOfxServer(port=self.port)
         self.mockurl = "http://localhost:" + str(self.port) + "/"
-        self.institution = ofx.Institution(ofx_org="Test Bank", 
+        self.institution = Institution(ofx_org="Test Bank",
                                            ofx_fid="99999",
                                            ofx_url=self.mockurl)
-        self.checking_account = ofx.Account(acct_number="1122334455", 
+        self.checking_account = Account(acct_number="1122334455",
                                             aba_number="12345678", 
                                             acct_type="Checking",
                                             institution=self.institution)
-        self.savings_account = ofx.Account(acct_number="1122334455", 
+        self.savings_account = Account(acct_number="1122334455",
                                            aba_number="12345678", 
                                            acct_type="Savings",
                                            institution=self.institution)
-        self.creditcard_account = ofx.Account(acct_number="1122334455", 
+        self.creditcard_account = Account(acct_number="1122334455",
                                               aba_number="12345678", 
                                               acct_type="Credit Card",
                                               institution=self.institution)
         self.username = "username"
         self.password = "password"
-        self.client  = ofx.Client()
+        self.client  = Client()
         self.checking_stmt = ofx_test_utils.get_checking_stmt().decode('utf-8')
         self.savings_stmt = ofx_test_utils.get_savings_stmt().decode('utf-8')
         self.creditcard_stmt = ofx_test_utils.get_creditcard_stmt().decode('utf-8')

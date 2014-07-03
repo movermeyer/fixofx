@@ -11,20 +11,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import unittest
+from ofx import Account, Request, Parser, Institution
+
 
 class RequestTests(unittest.TestCase):
     def setUp(self):
-        self.request = ofx.Request()
-        self.institution = ofx.Institution(ofx_org="fi_name", ofx_fid="1000")
-        self.account = ofx.Account(acct_number="00112233",
+        self.request = Request()
+        self.institution = Institution(ofx_org="fi_name", ofx_fid="1000")
+        self.account = Account(acct_number="00112233",
                                    aba_number="12345678",
                                    acct_type="Checking",
                                    institution=self.institution)
         self.username = "joeuser"
         self.password = "mypasswd"
-        self.parser  = ofx.Parser()
+        self.parser  = Parser()
 
     # FIXME: Need to add tests for date formatting.
 

@@ -11,14 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import ofx
 import ofx_test_utils
 
 import unittest
+from ofx import Parser
+
 
 class ParserTests(unittest.TestCase):
     def setUp(self):
-        parser = ofx.Parser()
+        parser = Parser()
         checking_stmt = ofx_test_utils.get_checking_stmt()
         creditcard_stmt = ofx_test_utils.get_creditcard_stmt()
         blank_memo_stmt = ofx_test_utils.get_blank_memo_stmt()
