@@ -10,11 +10,11 @@ fixofx
     :target: https://landscape.io/github/henriquebastos/fixofx/master
     :alt: Code Health
 
-.. image:: https://pypip.in/v/fixofx/badge.png
+.. image:: https://img.shields.io/pypi/v/fixofx.svg
     :target: https://crate.io/packages/fixofx/
     :alt: Latest PyPI version
 
-.. image:: https://pypip.in/d/fixofx/badge.png
+.. image:: https://img.shields.io/pypi/dm/fixofx.svg
     :target: https://crate.io/packages/fixofx/
     :alt: Number of PyPI downloads
 
